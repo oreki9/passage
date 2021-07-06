@@ -1,0 +1,74 @@
+<!-- index.html -->
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <style>
+  .container {
+		display: flex;
+	  justify-content: flex-end ;
+	  align-items: center;
+	}
+	.pagenum{
+		display: flex;
+	  justify-content: space-evenly ;
+	  align-items: center;
+	}
+  </style>
+</head>
+<body>
+<div style="height:20%;width:90%" class="container"><div style="margin:10px"><img id="imagepassage" src="" style="border-radius: 50%;"></div><a href="account.php"><div id="namepassage"></div></a></div>
+<div id="listitem" style="width:90%;margin: auto;"></div>
+<div style="height:20%;width:90%" class="pagenum"><a href="javascript:prevPage()"><div style="margin:10px">Prev</div></a><a href="javascript:nextPage()"><div>Next</div></a></div>
+<script src="main.js"></script>
+<script>
+function loadPage(thenfunc) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    let listpage = eval(this.responseText);
+	document.getElementById("namepassage").innerHTML = listpage.name;
+	document.getElementById("imagepassage").src = listpage.image;
+	listpage.list.forEach(function(x){
+		addBody(x.title,x.body,x.link);
+	})
+	thenfunc();
+  }
+  let pagenum = window.location.hash.substring(1,window.location.hash.length);
+  xhttp.open("GET", "test.php?page="+pagenum);
+  xhttp.send();
+}
+function nextPage(){
+	let pagenum = window.location.hash.substring(1,window.location.hash.length);
+	window.location.href = "index.html#"+(parseInt(pagenum)+1);
+	document.getElementById("listitem").innerHTML = "";
+	loadPage(()=>{
+		twttr.widgets.load(
+			document.getElementById("listitem")
+		);
+	});
+}
+function prevPage(){
+	let pagenum = window.location.hash.substring(1,window.location.hash.length);
+	window.location.href = "index.html#"+(parseInt(pagenum)-1);
+	document.getElementById("listitem").innerHTML = "";
+	loadPage(()=>{
+		twttr.widgets.load(
+			document.getElementById("listitem")
+		);
+	});
+}
+function promiselaodpage(){
+	return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(loadPage(()=>{}));
+    }, 200);
+  });
+}
+async function asyncPageCall() {
+  const result = await promiselaodpage();
+}
+asyncPageCall()
+</script>
+</body>
