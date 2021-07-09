@@ -45,14 +45,14 @@ function loadUserData(){
 		setCookie('userphoto', userdata.image, {secure: true, 'max-age': 3600});
 		window.location.href = "index.html#1";
 		document.getElementById("listitem").innerHTML = "";
-			loadPage(()=>{
-				twttr.widgets.load(
-				document.getElementById("listitem")
+		loadPage(()=>{
+			twttr.widgets.load(
+				document.getElementById("listitem");
 			);
 		});
 	}
 	let token = window.location.hash.substring(8,window.location.hash.length);
-	xhttp.open("GET", "https://passage2.000webhostapp.com/index.php?token="+token);
+	xhttp.open("GET", "https://passage2.000webhostapp.com/gauth.php?token="+token);
 	xhttp.send();
 }
 function nextPage(){
