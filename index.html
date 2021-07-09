@@ -31,6 +31,8 @@ function loadPage(thenfunc) {
 	listpage.list.forEach(function(x){
 		addBody(x.title,x.body,x.link);
 	})
+	document.getElementById("namepassage").innerHTML = getCookie("username");
+	document.getElementById("imagepassage").src = getCookie("userphoto");
 	thenfunc();
   }
   let pagenum = window.location.hash.substring(1,window.location.hash.length);
@@ -120,8 +122,6 @@ async function asyncPageCall() {
 	if(window.location.hash.substring(1,7)=="token="){
 		const userdata = await promiseGetUser();
 	}else{
-		document.getElementById("namepassage").innerHTML = getCookie("username");
-		document.getElementById("imagepassage").src = getCookie("userphoto");
 		const result = await promiselaodpage();
 	}
 }
