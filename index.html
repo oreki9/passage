@@ -28,8 +28,6 @@ function loadPage(thenfunc) {
   const xhttp = new XMLHttpRequest();
   xhttp.onload = function() {
     let listpage = eval(this.responseText);
-	document.getElementById("namepassage").innerHTML = listpage.name;
-	document.getElementById("imagepassage").src = listpage.image;
 	listpage.list.forEach(function(x){
 		addBody(x.title,x.body,x.link);
 	})
@@ -38,6 +36,24 @@ function loadPage(thenfunc) {
   let pagenum = window.location.hash.substring(1,window.location.hash.length);
   xhttp.open("GET", "https://passage2.000webhostapp.com/index.php?tag=MSwyLDMsNCw1LDYsNw==&page="+pagenum);
   xhttp.send();
+}
+function loadUserData(){
+	const xhttp = new XMLHttpRequest();
+	xhttp.onload = function() {
+		let userdata = eval(this.responseText);
+		setCookie('username', userdata.name, {secure: true, 'max-age': 3600});
+		setCookie('userphoto', userdata.image, {secure: true, 'max-age': 3600});
+		window.location.href = "index.html#1";
+		document.getElementById("listitem").innerHTML = "";
+			loadPage(()=>{
+				twttr.widgets.load(
+				document.getElementById("listitem")
+			);
+		});
+	}
+	let token = window.location.hash.substring(8,window.location.hash.length);
+	xhttp.open("GET", "https://passage2.000webhostapp.com/index.php?token="+token);
+	xhttp.send();
 }
 function nextPage(){
 	let pagenum = window.location.hash.substring(1,window.location.hash.length);
@@ -49,6 +65,7 @@ function nextPage(){
 		);
 	});
 }
+
 function prevPage(){
 	let pagenum = window.location.hash.substring(1,window.location.hash.length);
 	window.location.href = "index.html#"+(parseInt(pagenum)-1);
@@ -59,6 +76,30 @@ function prevPage(){
 		);
 	});
 }
+function setCookie(name, value, options = {}) {
+  options = {
+    path: '/',
+    ...options
+  };
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+  for (let optionKey in options) {
+    updatedCookie += "; " + optionKey;
+    let optionValue = options[optionKey];
+    if (optionValue !== true) {
+      updatedCookie += "=" + optionValue;
+    }
+  }
+  document.cookie = updatedCookie;
+}
+function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 function promiselaodpage(){
 	return new Promise(resolve => {
     setTimeout(() => {
@@ -66,8 +107,21 @@ function promiselaodpage(){
     }, 200);
   });
 }
+function promiseGetUser(){
+	return new Promise(resolve => {
+		setTimeout(() => {
+		  resolve(loadPage(()=>{}));
+		}, 200);
+	});
+}
 async function asyncPageCall() {
-  const result = await promiselaodpage();
+	if(window.location.hash.substring(1,7)=="token="){
+		const userdata = await = promiseGetUser();
+	}else{
+		document.getElementById("namepassage").innerHTML = getCookie("username");
+		document.getElementById("imagepassage").src = getCookie("userphoto");
+		const result = await promiselaodpage();
+	}
 }
 asyncPageCall()
 </script>
