@@ -110,7 +110,7 @@ function promiselaodpage(){
 function promiseGetUser(){
 	return new Promise(resolve => {
 		setTimeout(() => {
-		  resolve(loadPage(()=>{}));
+		  resolve(loadUserData(()=>{}));
 		}, 200);
 	});
 }
