@@ -30,8 +30,12 @@ function loadPage(thenfunc) {
     let listpage = eval(this.responseText);
 	listpage.list.forEach(function(x){
 		addBody(x.title,x.body,x.link);
-	})
-	document.getElementById("namepassage").innerHTML = getCookie("username");
+	});
+	let username = getCookie("username");
+	if(username==""){
+		username = "account";
+	}
+	document.getElementById("namepassage").innerHTML = username;
 	document.getElementById("imagepassage").src = getCookie("userphoto");
 	thenfunc();
   }
@@ -43,7 +47,6 @@ function loadUserData(){
 	const xhttp = new XMLHttpRequest();
 	xhttp.onload = function() {
 		let userdata = eval(this.responseText);
-		console.log(userdata.name)
 		setCookie('username', userdata.name, {secure: true, 'max-age': 3600});
 		setCookie('userphoto', userdata.image, {secure: true, 'max-age': 3600});
 		window.location.href = "index.html#1";
