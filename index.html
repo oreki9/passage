@@ -59,7 +59,7 @@ function loadUserData(){
 	}
 	let urlhash = window.location.hash;
 	let lengthtoken = urlhash.search("token=")+"token=".length
-	let token = urlhash.substr(lengthtoken,urlhash.search("&sad")-lengthtoken);
+	let token = urlhash.substr(lengthtoken,urlhash.search("&child")-lengthtoken);
 	setCookie("childserver",urlhash.substr(urlhash.search("&child=")+"&child=".length,urlhash.length),{secure: true, 'max-age': 3600});
 	xhttp.open("GET", "https://passagemain.000webhostapp.com/gauth.php?token="+token);
 	xhttp.send();
