@@ -40,8 +40,10 @@ function loadPage(thenfunc) {
 	thenfunc();
   }
   let pagenum = window.location.hash.substring(1,window.location.hash.length);
-  xhttp.open("GET", getCookie("childserver")+"/page.php?tag=MSwyLDMsNCw1LDYsNw==&page="+pagenum);
-  xhttp.send();
+	if(getCookie("childserver")!=""){
+	  xhttp.open("GET", getCookie("childserver")+"/page.php?tag=MSwyLDMsNCw1LDYsNw==&page="+pagenum);
+	  xhttp.send();
+	}
 }
 function loadUserData(){
 	const xhttp = new XMLHttpRequest();
