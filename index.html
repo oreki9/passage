@@ -40,8 +40,9 @@ function loadPage(thenfunc) {
 	thenfunc();
   }
   let pagenum = window.location.hash.substring(1,window.location.hash.length);
+  if(getCookie("tagtoken")!undefined) setCookie("tagtoken","MSwyLDMsNCw1LDYsNw==",{secure: true, 'max-age': 3600});
 	if(getCookie("childserver")!=undefined){
-	  xhttp.open("GET", getCookie("childserver")+"/page.php?tag=MSwyLDMsNCw1LDYsNw==&page="+pagenum);
+	  xhttp.open("GET", getCookie("childserver")+"/page.php?tag="+getCookie("tagtoken")+"&page="+pagenum);
 	  xhttp.send();
 	}
 }
@@ -51,6 +52,7 @@ function loadUserData(){
 		let userdata = eval(this.responseText);
 		setCookie('username', userdata.name, {secure: true, 'max-age': 3600});
 		setCookie('userphoto', userdata.image, {secure: true, 'max-age': 3600});
+		setCookie("tagtoken",userdata.tagtoken,{secure: true, 'max-age': 3600});
 		window.location.href = "index.html#1";
 		document.getElementById("listitem").innerHTML = "";
 		loadPage(()=>{
