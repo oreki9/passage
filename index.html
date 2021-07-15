@@ -28,12 +28,12 @@ function loadPage(thenfunc) {
   const xhttp = new XMLHttpRequest();
   xhttp.onload = function() {
     let listpage = eval(this.responseText);
-	if(listpage.list.length>1){
+	if(listpage.list.length>0){
 		listpage.list.forEach(function(x){
 			addBody(x.title,x.body,x.link);
 		});
 	}else{
-		document.getElementById("listitem").innerHTML = "<div style='text-align:center'>There no post/news, please sign in or back to page before</div>";
+		document.getElementById("listitem").innerHTML = "<div style='text-align:center'>There no post/news, please back to page before</div>";
 	}
 	let username = getCookie("username");
 	if(username==""){
@@ -48,6 +48,8 @@ function loadPage(thenfunc) {
 	if(getCookie("childserver")!=undefined){
 	  xhttp.open("GET", getCookie("childserver")+"/page.php?tag="+getCookie("tagtoken")+"&page="+pagenum);
 	  xhttp.send();
+	}else{
+		document.getElementById("listitem").innerHTML = "<div style='text-align:center'>There no post/news, please Sign in</div>";
 	}
 }
 function loadUserData(){
