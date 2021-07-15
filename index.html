@@ -28,9 +28,13 @@ function loadPage(thenfunc) {
   const xhttp = new XMLHttpRequest();
   xhttp.onload = function() {
     let listpage = eval(this.responseText);
-	listpage.list.forEach(function(x){
-		addBody(x.title,x.body,x.link);
-	});
+	if(listpage.list.length>1){
+		listpage.list.forEach(function(x){
+			addBody(x.title,x.body,x.link);
+		});
+	}else{
+		document.getElementById("listitem").innerHTML = "<div style='text-align:center'>There no post/news, please sign in or back to page before</div>";
+	}
 	let username = getCookie("username");
 	if(username==""){
 		username = "account";
