@@ -19,7 +19,7 @@
   </style>
 </head>
 <body>
-<div style="height:20%;width:90%" class="container"><div style="margin:10px"><img id="imagepassage" src="user.png" style="border-radius: 50%;"></div><a href="https://passagemain.000webhostapp.com/index.php"><div id="namepassage">Account</div></a></div>
+<div style="height:20%;width:90%" class="container"><div style="margin:10px"><img id="imagepassage" src="user.png" style="border-radius: 50%;"></div><a href="https://passage0.000webhostapp.com/index.php"><div id="namepassage">Account</div></a></div>
 <div id="listitem" style="width:90%;margin: auto;"></div>
 <div style="height:20%;width:90%" class="pagenum"><a href="javascript:prevPage()"><div style="margin:10px">Prev</div></a><a href="javascript:nextPage()"><div>Next</div></a></div>
 <script src="main.js"></script>
@@ -37,7 +37,7 @@ function loadPage(thenfunc) {
 	}
 	let username = getCookie("username");
 	if(username==""){
-		username = "account";
+		username = "sign in";
 	}
 	document.getElementById("namepassage").innerHTML = username;
 	document.getElementById("imagepassage").src = getCookie("userphoto");
@@ -71,7 +71,7 @@ function loadUserData(){
 	let lengthtoken = urlhash.search("token=")+"token=".length
 	let token = urlhash.substr(lengthtoken,urlhash.search("&child")-lengthtoken);
 	setCookie("childserver",urlhash.substr(urlhash.search("&child=")+"&child=".length,urlhash.length),{secure: true, 'max-age': 3600});
-	xhttp.open("GET", "https://passagemain.000webhostapp.com/gauth.php?token="+token);
+	xhttp.open("GET", "https://passage0.000webhostapp.com/gauth.php?token="+token);
 	xhttp.send();
 }
 function nextPage(){
